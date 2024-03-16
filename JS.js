@@ -1,51 +1,68 @@
 const container = document.getElementById("container")
 const inOut = 1.5
 // create and attach an image to the DOM tree
-let imgElm = document.createElement("img")
-imgElm.src = "image.png"
+function handleImageSelect(event) {
+    const file = event.target.files[0]
+    const reader = new FileReader()
 
-container.appendChild(imgElm)
-imgElm.width = "400"
-imgElm.height = "250"
+    reader.onload = function (event) {
+        // Create an image element
+        let imgElm = document.createElement("img")
+        imgElm.src = event.target.result
+        imgElm.width = "400"
+        imgElm.height = "250"
+        
 
-// create a delete button the image 
+        // Append the new image to the container
+        container.appendChild(imgElm)
 
-const DeleteButton = document.createElement("button")
-DeleteButton.innerText = "Delete"
-container.appendChild(DeleteButton)
+        // create a delete button the image 
 
-
-// zooming 
-
-let zoomInBtn = document.createElement("button")
-zoomInBtn.innerText = "+"
-
-container.appendChild(zoomInBtn)
-
-zoomInBtn.addEventListener("click", function(){
-    imgElm.width *= inOut
-    imgElm.height *= inOut
-
-})
-
-let zoomOutBtn = document.createElement("button")
-
-zoomOutBtn.innerText = "-"
-container.appendChild(zoomOutBtn)
-zoomOutBtn.addEventListener("click", function(){
-    imgElm.width /= inOut
-    imgElm.height /= inOut
-})
+        const DeleteButton = document.createElement("button")
+        DeleteButton.innerText = "Delete"
+        container.appendChild(DeleteButton)
 
 
-//delete All 
+        // zooming 
+        let zoomInBtn = document.createElement("button")
+        zoomInBtn.innerText = "+"
 
-DeleteButton.addEventListener("click", function(){
-    imgElm.remove()
-    zoomInBtn.remove()
-    zoomOutBtn.remove()
-    this.remove()
-})
+        container.appendChild(zoomInBtn)
+
+        zoomInBtn.addEventListener("click", function () {
+            imgElm.width *= inOut
+            imgElm.height *= inOut
+
+        })
+
+        let zoomOutBtn = document.createElement("button")
+
+        zoomOutBtn.innerText = "-"
+        container.appendChild(zoomOutBtn)
+        zoomOutBtn.addEventListener("click", function () {
+            imgElm.width /= inOut
+            imgElm.height /= inOut
+        })
+
+
+        //delete All 
+        DeleteButton.addEventListener("click", function () {
+            imgElm.remove()
+            zoomInBtn.remove()
+            zoomOutBtn.remove()
+            this.remove()
+        })
+    }
+
+    reader.readAsDataURL(file)
+    
+}
+
+// Add event listener to the file input
+const imageInput = document.getElementById('imageInput')
+imageInput.addEventListener('change', handleImageSelect)
+
+
 
 
 
